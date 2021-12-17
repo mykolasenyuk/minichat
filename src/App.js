@@ -1,35 +1,49 @@
 import './App.css'
 import { useState } from 'react'
-import Section from './components/Section'
-import Form from './components/Form'
-import List from './components/list'
+import Section from './components/Section/Section'
+import Container from './components/Container/Container'
+import Form from './components/Form/Form'
+import List from './components/List/List'
+import UserFilter from './components/userFilter/UserFilter'
 import { v4 } from 'uuid'
 import useLocalStorage from './components/localStorage'
 
 function App() {
-  const [contacts, setContacts] = useLocalStorage('contacts', [])
+  const [messages, setMessages] = useLocalStorage('messages', [])
   const [filter, setFilter] = useState('')
 
-  const addContact = (name, text) => {
-    const contact = {
+  const addMessage = (name, text) => {
+    const message = {
       id: v4(),
       name,
       text,
     }
-    setContacts((contacts) => [contact, ...contacts])
+    setMessages((messages) => [message, ...messages])
   }
   const handleSubmit = ({ name, text }) => {
-    addContact(name, text)
+    // if (messages.find((user) => user.name === name)) {
+    //   console.log('name in use')
+    //   return
+    // }
+    addMessage(name, text)
   }
-  const deleteContact = (id) => {
-    setContacts(contacts.filter((cont) => cont.id !== id))
+  const deleteMessage = (id) => {
+    setMessages(messages.filter((mess) => mess.id !== id))
   }
 
+  const filterChange = (filter) => setFilter(filter.toLowerCase())
+  const visibleMessages = () => {
+    return messages.filter((user) => user.name.toLowerCase().includes(filter))
+  }
+  console.log(messages)
   return (
     <div className="App">
       <Section title="Mini chat">
         <Form onSubmit={handleSubmit} />
-        <List contacts={contacts} Dlt={deleteContact} />
+        <UserFilter value={filter} onChange={filterChange} />
+        <Container>
+          <List messages={visibleMessages()} Dlt={deleteMessage} />
+        </Container>
       </Section>
     </div>
   )
