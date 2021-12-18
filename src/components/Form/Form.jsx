@@ -10,7 +10,7 @@ const Form = ({ onSubmit }) => {
 
   const onInputChange = (e) => {
     const { name, value } = e.currentTarget
-    //   console.log(e.currentTarget)
+
     switch (name) {
       case 'name':
         setName(value)

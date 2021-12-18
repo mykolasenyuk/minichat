@@ -1,4 +1,6 @@
 import s from './List.module.css'
+import { VscTrash } from 'react-icons/vsc'
+
 const List = ({ messages, Dlt }) => {
   return (
     <ul className={s.list}>
@@ -13,7 +15,7 @@ const List = ({ messages, Dlt }) => {
             type="button"
             onClick={() => Dlt(message.id)}
           >
-            Dlt
+            <VscTrash />
           </button>
         </li>
       ))}
